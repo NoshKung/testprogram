@@ -1,0 +1,64 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Runsound {
+    JFrame window;
+	JPanel Panel;
+	JButton Button;
+	String clickSound;
+	ButtonHandler bHandler = new ButtonHandler();
+	Sound se = new Sound();
+	public static void main(String[] args) {
+		new Runsound();
+	}
+	
+	public Runsound(){
+		
+		window = new JFrame();
+		window.setSize(250, 300);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Panel = new JPanel();
+		Panel.setBounds(35, 50, 200, 20);
+		window.add(Panel);
+		
+		Button = new JButton("RUN");
+		Button.addActionListener(bHandler);
+		Panel.add(Button);
+				
+		window.setVisible(true);
+
+		clickSound = "[THAISUB] Fujii Kaze - Shinunoga e-wa.wav";
+	}
+	public class Sound {
+		Clip soundClip;
+		public void setFile(String soundFileName){
+			try{
+				File file = new File(soundFileName);
+				AudioInputStream sound = AudioSystem.getAudioInputStream(file);	
+				soundClip = AudioSystem.getClip();
+				soundClip.open(sound);
+			}
+			catch(Exception e){
+			}
+		}
+		public void run(){	
+			soundClip.setFramePosition(0);
+			soundClip.start();
+		}
+	}
+	public class ButtonHandler implements ActionListener{
+		
+		public void actionPerformed(ActionEvent event){
+			se.setFile(clickSound);
+			se.run();
+		}
+	}
+}
