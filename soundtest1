@@ -1,0 +1,65 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.sound.sampled.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Main implements ActionListener{
+    private static JLabel sound;
+   // private static JTextField speedtext,timetext;
+    private static JButton Run;
+    public static void main(String[] args )  {
+        JPanel panel = new JPanel();
+        JFrame frame = new JFrame();
+
+        frame.setSize(250, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.add(panel);
+
+        panel.setLayout(null);
+
+        sound = new JLabel("Run : Fujii Kaze - Shinunoga e-wa");
+        sound.setBounds(35, 50, 200, 25);
+        panel.add(sound);
+
+        Run = new JButton("Run");
+
+        Run.setBounds(30, 80, 80, 20);
+        panel.add(Run);
+
+        Run.addActionListener(new Main());
+        frame.setVisible(true);
+    }
+//--------------------------------------------------------------------------------------------------------------------------
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        if (e.getSource()==Run) {
+            try {
+                sound();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+    private void sound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        Scanner scanner = new Scanner(System.in);
+
+        File file = new File("[THAISUB] Fujii Kaze - Shinunoga e-wa.wav");
+        AudioInputStream audiorun = AudioSystem.getAudioInputStream(file);
+        Clip sound = AudioSystem.getClip();
+		sound.open(audiorun);
+
+        sound.start();
+        String run = scanner.next();
+    }
+
+}
